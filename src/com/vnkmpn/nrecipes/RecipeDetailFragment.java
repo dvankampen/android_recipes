@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 @TargetApi(12)
@@ -53,9 +54,12 @@ public class RecipeDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_recipe_detail, container, false);
+        //View rootView = inflater.inflate(R.layout.fragment_recipe_detail, container, false);
+    	View rootView = inflater.inflate(R.layout.fragment_recipe_detail_readwrite, container, false);
         if (recipe != null) {
-            ((TextView) rootView.findViewById(R.id.recipe_detail)).setText(recipe.getName() + " and " + recipe.getIngredient());
+            //((TextView) rootView.findViewById(R.id.recipe_detail)).setText(recipe.getName() + " and " + recipe.getIngredient());
+        	((EditText) rootView.findViewById(R.id.editName)).setText(recipe.getName());
+        	((EditText) rootView.findViewById(R.id.editIngredients)).setText(recipe.getIngredient());
         }
         return rootView;
     }
