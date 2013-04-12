@@ -9,20 +9,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="&quot;Edit the name here&quot;"
-        android:textStyle="bold|italic" />
+        android:textStyle="bold|italic"
+        android:inputType="text" >      
+    </EditText>"
 
     <EditText
         android:id="@+id/editIngredients"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dip"
         android:layout_weight="0.31"
         android:ems="10"
         android:gravity="top|center_vertical"
-        android:hint="&quot;edit the ingredients here&quot;"
         android:inputType="textMultiLine" >
 
         <requestFocus />
     </EditText>
+
+    <Button
+        android:id="@+id/saveRecipeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/saveRecipe" />
 
 </LinearLayout>

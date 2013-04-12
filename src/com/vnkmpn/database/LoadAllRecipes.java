@@ -13,8 +13,9 @@ import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.support.v4.app.ListFragment;
 
-public  class LoadAllRecipes extends AsyncTask<String, String, String> {
+public class LoadAllRecipes extends AsyncTask<String, String, String> {
 	
 	 // Progress Dialog
     private ProgressDialog pDialog;
@@ -23,7 +24,7 @@ public  class LoadAllRecipes extends AsyncTask<String, String, String> {
     private FragmentActivity fa;
     private android.support.v4.app.ListFragment mFrag;
     // url to get all products list
-    private static String url_all_products = "http://vnkmpn.com/android_php/get_all.php";
+    private static String url_all_recipes = "http://vnkmpn.com/android/recipe_get_all";
  
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
@@ -38,7 +39,7 @@ public  class LoadAllRecipes extends AsyncTask<String, String, String> {
     
     ArrayList<Recipe> recipesList = new ArrayList<Recipe>();
     
-    public LoadAllRecipes (FragmentActivity parent, android.support.v4.app.ListFragment listFragment){ 
+    public LoadAllRecipes (FragmentActivity parent, ListFragment listFragment){ 
     
     fa = parent;
     mFrag = listFragment;
@@ -51,7 +52,7 @@ public  class LoadAllRecipes extends AsyncTask<String, String, String> {
     protected void onPreExecute() {
         super.onPreExecute();
         pDialog = new ProgressDialog(fa);
-        pDialog.setMessage("Loading products. Please wait...");
+        pDialog.setMessage("Loading recipes. Please wait...");
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(false);
         pDialog.show();
@@ -64,10 +65,10 @@ public  class LoadAllRecipes extends AsyncTask<String, String, String> {
         // Building Parameters
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         // getting JSON string from URL
-        JSONObject json = jParser.makeHttpRequest(url_all_products, "GET", params);
+        JSONObject json = jParser.makeHttpRequest(url_all_recipes, "GET", params);
 
         // Check your log cat for JSON response
-        Log.d("All Products: ", json.toString());
+        Log.d("Got all recipes: ", json.toString());
 
         try {
             // Checking for SUCCESS TAG

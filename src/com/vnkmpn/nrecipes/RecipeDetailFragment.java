@@ -2,20 +2,18 @@ package com.vnkmpn.nrecipes;
 
 
 
-import com.vnkmpn.database.Recipe;
-import com.vnkmpn.database.RecipesDBAdapter;
-
 import android.annotation.TargetApi;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.support.v4.app.FragmentActivity;
+
+import com.vnkmpn.database.Recipe;
 
 @TargetApi(12)
 public class RecipeDetailFragment extends Fragment {
@@ -26,7 +24,10 @@ public class RecipeDetailFragment extends Fragment {
     
     int id = 0;
     String name = "nameeroni";
-    String ingreds = "ingreds";    
+    String ingreds = "ingreds";  
+    
+    public FragmentActivity fa ;
+    private ButtonClickListener bcl;
 
     Recipe recipe = null;
 
@@ -37,6 +38,10 @@ public class RecipeDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
+        fa = this.getActivity();
+        
+        bcl = new ButtonClickListener(fa, this);
+                
         id = getArguments().getInt(ARG_ITEM_ID, id);
 
         name = getArguments().getString(ARG_ITEM_NAME, name);
@@ -54,13 +59,17 @@ public class RecipeDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        //View rootView = inflater.inflate(R.layout.fragment_recipe_detail, container, false);
     	View rootView = inflater.inflate(R.layout.fragment_recipe_detail_readwrite, container, false);
         if (recipe != null) {
-            //((TextView) rootView.findViewById(R.id.recipe_detail)).setText(recipe.getName() + " and " + recipe.getIngredient());
         	((EditText) rootView.findViewById(R.id.editName)).setText(recipe.getName());
         	((EditText) rootView.findViewById(R.id.editIngredients)).setText(recipe.getIngredient());
+        	final Button srb = (Button) rootView.findViewById(R.id.saveRecipeButton);
+        	bcl.setParameters(Integer.toString(recipe.getID()), recipe.getName(), recipe.getIngredient());
+        	srb.setOnClickListener(bcl);
         }
         return rootView;
     }
+    
+    
+    
 }

@@ -1,25 +1,12 @@
 package com.vnkmpn.nrecipes;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONStringer;
-
-import com.vnkmpn.database.JSONParser;
-import com.vnkmpn.database.Recipe;
-import com.vnkmpn.database.RecipesDBAdapter;
-
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+
+import com.vnkmpn.database.Recipe;
+import com.vnkmpn.database.RecipesDBAdapter;
 
 public class RecipeListActivity extends FragmentActivity
         implements RecipeListFragment.Callbacks {
@@ -28,7 +15,8 @@ public class RecipeListActivity extends FragmentActivity
     
     public RecipesDBAdapter db = new RecipesDBAdapter(this);
     
-    private FragmentActivity instance;
+    @SuppressWarnings("unused")
+	private FragmentActivity instance;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

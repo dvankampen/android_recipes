@@ -46,7 +46,10 @@ public class JSONParser {
                 // defaultHttpClient
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 HttpPost httpPost = new HttpPost(url);
-                httpPost.setEntity(new UrlEncodedFormEntity(params));
+                HttpEntity outgoingEntity = new UrlEncodedFormEntity(params);
+                httpPost.setHeader("Accept", "application/json");
+                httpPost.setHeader("Content-type", "application/json");
+                httpPost.setEntity(outgoingEntity);
  
                 HttpResponse httpResponse = httpClient.execute(httpPost);
                 HttpEntity httpEntity = httpResponse.getEntity();
@@ -65,10 +68,13 @@ public class JSONParser {
             }           
  
         } catch (UnsupportedEncodingException e) {
+        	Log.e("JSON Parser", "UnsupportedEncodingException");
             e.printStackTrace();
         } catch (ClientProtocolException e) {
+        	Log.e("JSON Parser", "ClientProtocolException");
             e.printStackTrace();
         } catch (IOException e) {
+        	Log.e("JSON Parser", "IOException");
             e.printStackTrace();
         }
  
@@ -91,6 +97,7 @@ public class JSONParser {
             jObj = new JSONObject(json);
         } catch (JSONException e) {
             Log.e("JSON Parser", "Error parsing data " + e.toString());
+            Log.e("JSON Parser", "json string was: " + json);
         }
  
         // return JSON String
