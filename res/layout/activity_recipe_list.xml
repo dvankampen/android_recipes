@@ -7,7 +7,7 @@
     android:padding="6dip" >
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:name="com.vnkmpn.nrecipes.RecipeListFragment"
+    android:name="com.vnkmpn.recipes.RecipeListFragment"
     android:id="@+id/recipe_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"

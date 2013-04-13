@@ -15,10 +15,10 @@ import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
-public class UpdateRecipe extends AsyncTask<String, String, String> {
+public class CreateRecipe extends AsyncTask<String, String, String> {
 	
 
-	private final String TAG = "UpdateRecipe";
+	private final String TAG = "CreateRecipe";
 	
 	 // Progress Dialog
    private ProgressDialog pDialog;
@@ -26,23 +26,21 @@ public class UpdateRecipe extends AsyncTask<String, String, String> {
    JSONParser jParser;
    private FragmentActivity fa;
    // url to get all products list
-   private static String url_update_recipe = "http://vnkmpn.com/android/recipe_update.php";
+   private static String url_create_recipe = "http://vnkmpn.com/android/recipe_create.php";
 
    // JSON Node names
    private static final String TAG_SUCCESS = "success";
    private static final String TAG_NAME = "name";
    private static final String TAG_INGREDIENTS = "ingredients";
-   private static final String TAG_ID = "id";
       
-   private String mName, mIngredients, mId;
+   private String mName, mIngredients;
    
    ArrayList<Recipe> recipesList = new ArrayList<Recipe>();
    
-   public UpdateRecipe (FragmentActivity parent, Fragment fragment, String id, String name, String ingredients){ 
+   public CreateRecipe (FragmentActivity parent, Fragment fragment, String name, String ingredients){ 
 	   fa = parent;
 	   mName = name;
 	   mIngredients = ingredients;
-	   mId = id;
 	   jParser = new JSONParser();
    }
 	 
@@ -70,11 +68,10 @@ public class UpdateRecipe extends AsyncTask<String, String, String> {
 	              
 	       params.add(new BasicNameValuePair(TAG_NAME, mName));
 	       params.add(new BasicNameValuePair(TAG_INGREDIENTS, mIngredients));
-	       params.add(new BasicNameValuePair(TAG_ID, mId));
 	       
-	       Log.d(TAG, "posting recipe w/ id: " + mId + ", name: " + mName + ", ingredients: " + mIngredients);
+	       Log.d(TAG, "posting recipe w/ name: " + mName + ", ingredients: " + mIngredients);
 	              
-	       JSONObject json = jParser.makeHttpRequest(url_update_recipe, "POST", params);
+	       JSONObject json = jParser.makeHttpRequest(url_create_recipe, "POST", params);
 	       
 	       // Check your log cat for JSON response
 	       Log.d(TAG, "vnkmpn.com response: " + json.toString());

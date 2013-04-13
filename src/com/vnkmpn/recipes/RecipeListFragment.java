@@ -1,15 +1,16 @@
-package com.vnkmpn.nrecipes;
-
-import com.vnkmpn.database.LoadAllRecipes;
-import com.vnkmpn.database.Recipe;
+package com.vnkmpn.recipes;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
-
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
+
+import com.vnkmpn.database.LoadAllRecipes;
+import com.vnkmpn.database.Recipe;
 
 public class RecipeListFragment extends ListFragment {
 	
@@ -25,25 +26,51 @@ public class RecipeListFragment extends ListFragment {
     public interface Callbacks {
 
         public void onItemSelected(Recipe recipe);
+
+		public void onItemLongSelected(Recipe recipe);
     }
 
     private static Callbacks sDummyCallbacks = new Callbacks() {
         @Override
         public void onItemSelected(Recipe recipe) {
         }
+        public void onItemLongSelected(Recipe recipe) {
+        	
+        }
     };
 
     public RecipeListFragment() {
+    }
+    
+    @Override
+    public void onActivityCreated(Bundle savedState) {
+    	super.onActivityCreated(savedState);
+    	getListView().setLongClickable(true);
+    	getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
+    		@Override
+    		public boolean onItemLongClick(AdapterView<?> listView, View view, int position, long id) {
+    			
+				Recipe recipe =  (Recipe) listView.getItemAtPosition(position);
+				mCallbacks.onItemLongSelected(recipe);
+				return true;
+			}});
+    	
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        
+
         fa = this.getActivity();
-         ra = (RecipeListActivity) fa;
+        ra = (RecipeListActivity) fa;
  
+        // Loading products in Background Thread
+        new LoadAllRecipes(fa, (ListFragment)(this)).execute();        
+    }
+    
+    @Override
+    public void onResume() {
+    	super.onResume();
         // Loading products in Background Thread
         new LoadAllRecipes(fa, (ListFragment)(this)).execute();
     }

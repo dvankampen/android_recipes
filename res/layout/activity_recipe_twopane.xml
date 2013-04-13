@@ -9,7 +9,7 @@
     android:showDividers="middle"
     tools:context=".RecipeListActivity">
 
-    <fragment android:name="com.vnkmpn.nrecipes.RecipeListFragment"
+    <fragment android:name="com.vnkmpn.recipes.RecipeListFragment"
         android:id="@+id/recipe_list"
         android:layout_width="0dp"
         android:layout_height="match_parent"

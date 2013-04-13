@@ -24,17 +24,16 @@ public class LoadAllRecipes extends AsyncTask<String, String, String> {
     private FragmentActivity fa;
     private android.support.v4.app.ListFragment mFrag;
     // url to get all products list
-    private static String url_all_recipes = "http://vnkmpn.com/android/recipe_get_all";
+    private static String url_all_recipes = "http://vnkmpn.com/android/recipe_get_all.php";
  
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_RECIPES = "recipes";
     private static final String TAG_NAME = "name";
     private static final String TAG_INGREDIENTS = "ingredients";
-    @SuppressWarnings("unused")
 	private static final String TAG_ID = "id";
     
- // products JSONArray
+    // recipes JSONArray
     JSONArray recipes = null;
     
     ArrayList<Recipe> recipesList = new ArrayList<Recipe>();
@@ -84,10 +83,12 @@ public class LoadAllRecipes extends AsyncTask<String, String, String> {
                     JSONObject c = recipes.getJSONObject(i);
 
                     // Storing each json item in variable
+                    int id = c.getInt(TAG_ID);
                     String name = c.getString(TAG_NAME);
                     String ingredients = c.getString(TAG_INGREDIENTS);
 
                     Recipe recipe = new Recipe();
+                    recipe.setID(id);
                     recipe.setName(name);
                     recipe.setIngredient(ingredients);
 
