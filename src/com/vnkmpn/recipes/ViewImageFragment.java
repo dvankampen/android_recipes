@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.vnkmpn.database.GetRecipeImage;
 
@@ -19,6 +18,7 @@ public class ViewImageFragment extends Fragment {
 	Drawable recipeImage;
 	int mId;
 	public FragmentActivity fa ;
+	GetRecipeImage gri;
 	
 	public ViewImageFragment() {
 		
@@ -29,16 +29,15 @@ public class ViewImageFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mId = getArguments().getInt(ARG_ITEM_ID, mId);  
         fa = this.getActivity();
-        GetRecipeImage gri = (GetRecipeImage) new GetRecipeImage(fa, mId);
+        gri = (GetRecipeImage) new GetRecipeImage(fa,this, mId);
     	gri.execute();        
-        recipeImage = gri.getImage();
     }
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
     	View rootView = inflater.inflate(R.layout.recipe_image_viewer, container, false);
-    	((ImageView) rootView.findViewById(R.id.recipeImageBig)).setImageDrawable(recipeImage);
+    	
     	return rootView;
 	}
 	

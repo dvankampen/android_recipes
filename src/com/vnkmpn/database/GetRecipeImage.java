@@ -7,6 +7,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+
+import com.vnkmpn.recipes.R;
+import com.vnkmpn.recipes.ViewImageFragment;
+
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,17 +20,20 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.widget.ImageView;
 
 public class GetRecipeImage extends AsyncTask<String, String, String> {
 	
 	// Progress Dialog
     private ProgressDialog pDialog;
+    private ViewImageFragment vif;
     private FragmentActivity fa;
     private int mId;
     Drawable recipeImage = null;
 	
-	public GetRecipeImage (FragmentActivity parent, int recipeID) { 
-		   fa = parent;
+	public GetRecipeImage (FragmentActivity activity, ViewImageFragment fragment, int recipeID) {
+			fa = activity;
+		   vif = fragment;
 		   mId = recipeID;
 	   }
 	
@@ -60,7 +67,9 @@ public class GetRecipeImage extends AsyncTask<String, String, String> {
 		           conn.connect();
 		           InputStream is = conn.getInputStream();
 		           BufferedInputStream bis = new BufferedInputStream(is);
-		           Bitmap bm = BitmapFactory.decodeStream(bis);
+		           BitmapFactory.Options options = new BitmapFactory.Options();
+		           options.inSampleSize = 4;
+		           Bitmap bm = BitmapFactory.decodeStream(bis,null, options);
 		           bis.close();
 		           is.close();
 		           recipeImage = new BitmapDrawable(bm);
@@ -72,27 +81,23 @@ public class GetRecipeImage extends AsyncTask<String, String, String> {
 		           success = 1;
 		       } catch (IOException e) {
 		           Log.e("getRecipeImage", "Error getting bitmap", e);
-		       }		   
+		       }
 			   
 		       if (success == 0) {
 		    	   Log.d("getRecipeImage", "json request failed - required field likely missing");
 		       }
 		   } else {
 			   recipeImage = Drawable.createFromPath(pathName);
-		   }
-	      
+		   }	      
 	       return null;
 	   }
-	   
-	   public Drawable getImage() {
-	    	return recipeImage;
-	    }
 	   
 	   /**
 	    * After completing background task Dismiss the progress dialog
 	    * **/
 	   protected void onPostExecute(String file_url) {
 	       // dismiss the dialog after getting all products
-		   pDialog.dismiss();	       
+		   pDialog.dismiss();
+		   ((ImageView) vif.getView().findViewById(R.id.recipeImageBig)).setImageDrawable(recipeImage);
 	   }
 }
