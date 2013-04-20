@@ -130,10 +130,5 @@ public class RecipeListFragment extends ListFragment {
         }
 
         mActivatedPosition = position;
-    }
-    
-    /**
-     * Background Async Task to Load all product by making HTTP Request
-     * */
-   
+    }   
 }

@@ -32,17 +32,20 @@ public class UpdateRecipe extends AsyncTask<String, String, String> {
    private static final String TAG_SUCCESS = "success";
    private static final String TAG_NAME = "name";
    private static final String TAG_INGREDIENTS = "ingredients";
+   private static final String TAG_FROM = "from";
+   private static final String TAG_OVENTEMP = "oventemp";
+   private static final String TAG_COOKTIME = "cooktime";
+   private static final String TAG_DIRECTIONS = "directions";
+   private static final String TAG_IMAGEURL= "imageurl";
    private static final String TAG_ID = "id";
       
-   private String mName, mIngredients, mId;
+   private Recipe mRecipe;
    
    ArrayList<Recipe> recipesList = new ArrayList<Recipe>();
    
-   public UpdateRecipe (FragmentActivity parent, Fragment fragment, String id, String name, String ingredients){ 
+   public UpdateRecipe (FragmentActivity parent, Fragment fragment, Recipe recipe) { 
 	   fa = parent;
-	   mName = name;
-	   mIngredients = ingredients;
-	   mId = id;
+	   mRecipe = recipe;
 	   jParser = new JSONParser();
    }
 	 
@@ -68,11 +71,14 @@ public class UpdateRecipe extends AsyncTask<String, String, String> {
 		   //Building Parameters
 	       List<NameValuePair> params = new ArrayList<NameValuePair>();
 	              
-	       params.add(new BasicNameValuePair(TAG_NAME, mName));
-	       params.add(new BasicNameValuePair(TAG_INGREDIENTS, mIngredients));
-	       params.add(new BasicNameValuePair(TAG_ID, mId));
-	       
-	       Log.d(TAG, "posting recipe w/ id: " + mId + ", name: " + mName + ", ingredients: " + mIngredients);
+	       params.add(new BasicNameValuePair(TAG_NAME, mRecipe.getName()));
+	       params.add(new BasicNameValuePair(TAG_INGREDIENTS, mRecipe.getIngredients()));
+	       params.add(new BasicNameValuePair(TAG_ID, Integer.toString(mRecipe.getID())));
+	       params.add(new BasicNameValuePair(TAG_FROM, mRecipe.getFrom()));
+	       params.add(new BasicNameValuePair(TAG_COOKTIME, mRecipe.getCookTime()));
+	       params.add(new BasicNameValuePair(TAG_OVENTEMP, mRecipe.getOvenTemp()));
+	       params.add(new BasicNameValuePair(TAG_DIRECTIONS, mRecipe.getDirections()));
+	       params.add(new BasicNameValuePair(TAG_IMAGEURL, mRecipe.getImageURL()));
 	              
 	       JSONObject json = jParser.makeHttpRequest(url_update_recipe, "POST", params);
 	       
