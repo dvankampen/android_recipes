@@ -7,10 +7,11 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -23,10 +24,8 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 
 import com.vnkmpn.database.CreateRecipe;
-import com.vnkmpn.database.GetRecipeImage;
 import com.vnkmpn.database.ReadRecipe;
 import com.vnkmpn.database.Recipe;
 import com.vnkmpn.database.UpdateRecipe;
@@ -55,6 +54,7 @@ public class EditRecipeFragment extends Fragment {
     public Activity a;
     private SaveButtonClickListener sbcl;
     private TakePhotoButtonClickListener tpbcl;
+    private ViewPhotoButtonClickListener vpbcl;
     private boolean newRecipe = false;
 
     Recipe recipe = null;
@@ -75,6 +75,7 @@ public class EditRecipeFragment extends Fragment {
         tpbcl = new TakePhotoButtonClickListener();
                 
         id = getArguments().getInt(ARG_ITEM_ID, id);
+        vpbcl = new ViewPhotoButtonClickListener(fa, id);
         
     	rr = new ReadRecipe(fa, this, Integer.toString(id));
     	rr.execute();
@@ -116,20 +117,14 @@ public class EditRecipeFragment extends Fragment {
 		    	((EditText) rootView.findViewById(R.id.editCookTime)).setText(recipe.getCookTime());
 		    	((EditText) rootView.findViewById(R.id.editDirections)).setText(recipe.getDirections());
 		    	((EditText) rootView.findViewById(R.id.editOvenTemp)).setText(recipe.getOvenTemp());
-		    	Bitmap recipePic = getImageBitmap(recipe.getImageURL());
-		    	((ImageView) rootView.findViewById(R.id.recipeImageView)).setImageBitmap(recipePic);
 	    	}
 	    	final Button srb = (Button) rootView.findViewById(R.id.saveRecipeButton);
 	    	srb.setOnClickListener(sbcl);
 	    	final Button tpb = (Button) rootView.findViewById(R.id.addPictureButton);
 	    	tpb.setOnClickListener(tpbcl);
+        	final Button vpb = (Button) rootView.findViewById(R.id.viewImage);
+        	vpb.setOnClickListener(vpbcl);
     	}
-    }
-    
-    private Bitmap getImageBitmap(String url) {
-       GetRecipeImage gri = (GetRecipeImage) new GetRecipeImage(fa, url).execute();
-       Bitmap bm = gri.getImage();
-       return bm;
     }
     
     public class SaveButtonClickListener implements OnClickListener, OnTouchListener{	
@@ -157,21 +152,21 @@ public class EditRecipeFragment extends Fragment {
     	public void onClick(View v) {
     		
     		View myView = mParentFragment.getActivity().findViewById(android.R.id.content);
-    		
+    		if (recipe == null) {
+    			recipe = new Recipe();
+    		}    		
     		recipe.setName(((EditText) myView.findViewById(R.id.editName)).getText().toString());
     		recipe.setIngredients(((EditText) myView.findViewById(R.id.editIngredients)).getText().toString());
     		recipe.setFrom(((EditText) myView.findViewById(R.id.editFrom)).getText().toString());
     		recipe.setCookTime(((EditText) myView.findViewById(R.id.editOvenTemp)).getText().toString());
     		recipe.setOvenTemp(((EditText) myView.findViewById(R.id.editCookTime)).getText().toString());
     		recipe.setDirections(((EditText) myView.findViewById(R.id.editDirections)).getText().toString());
-    		recipe.setImageURL("http://vnkpmn.com/recipe_images/" + recipe.getName() + ".jpg");
-
         	
         	if (!newRecipe) {    		
 	    		updateRecipeTask = new UpdateRecipe(mParent, mParentFragment, recipe);
 	    		updateRecipeTask.execute();
         	} else {
-        		createRecipeTask = new CreateRecipe(mParent, mParentFragment, recipe.getName(), recipe.getIngredients());
+        		createRecipeTask = new CreateRecipe(mParent, mParentFragment, recipe);
         		createRecipeTask.execute();
         	}
         	Log.d("editRecipe", "popping back up a level");
@@ -202,7 +197,10 @@ public class EditRecipeFragment extends Fragment {
 		private File createImageFile() throws IOException {
 		    // Create an image file name
 		    //String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-		    String imageFileName = recipe.getName().replaceAll("\\s", "") + ".jpg";
+		    String imageFileName = "/recipes/" + Integer.toString(recipe.getID()) + ".jpg";
+		    File recipeImagePath = new File(Environment.getExternalStoragePublicDirectory(
+    	            Environment.DIRECTORY_PICTURES) + "/recipes/");
+		    recipeImagePath.mkdirs();
 		    File image = new File(
 		    	    Environment.getExternalStoragePublicDirectory(
 		    	            Environment.DIRECTORY_PICTURES
@@ -213,22 +211,19 @@ public class EditRecipeFragment extends Fragment {
 		    return image;
 		}
 		
-		    }
+	}
     
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
     	Log.d("EditPict", "activity returned result code: " + Integer.toString(resultCode));
-			
-		if (data != null) {		
-			 Bundle extras = data.getExtras();
-			 Bitmap mImageBitmap = (Bitmap) extras.get("data");
-			 View rootView = this.getView();;
-			 ((ImageView) rootView.findViewById(R.id.recipeImageView)).setImageBitmap(mImageBitmap);
-		}
+		
 		String filePath = Environment.getExternalStoragePublicDirectory(
 	            Environment.DIRECTORY_PICTURES
-        ) + "/" + recipe.getName() + ".jpg";
+        ) + "/recipes/" + Integer.toString(id) + ".jpg";
 		Log.d("editpict", "uploading image: " + filePath);
-		new UploadRecipeImage(filePath).execute();
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(fa);
+        String ftp_password = prefs.getString(SettingsFragment.KEY_PREF_FTPPW, "");
+		new UploadRecipeImage(filePath, ftp_password).execute();
 		
 	}
     

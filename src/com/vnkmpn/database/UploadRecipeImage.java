@@ -17,12 +17,14 @@ public class UploadRecipeImage extends AsyncTask<String, String, String> {
 
         
    private File mRecipeImageFile;
+   private String mPassword;
    
    
-   public UploadRecipeImage (String recipeImageFilePath) { 
+   public UploadRecipeImage (String recipeImageFilePath, String ftp_password) { 
 	   mRecipeImageFile = new File(recipeImageFilePath);
-   }
+	   mPassword = ftp_password;
 
+   }
    /**
     * getting All products from url
     * */
@@ -33,7 +35,7 @@ public class UploadRecipeImage extends AsyncTask<String, String, String> {
 	    try {
 	    	Log.d("ftpclient", "saving picture: " + mRecipeImageFile.getAbsolutePath());
 	        ftpClient.connect(InetAddress.getByName("ftp.vnkmpn.com"));
-	        ftpClient.login("recipe_images@vnkmpn.com", "recipes");
+	        ftpClient.login("recipe_images@vnkmpn.com", mPassword);
 	        
 	        Log.d("ftpclient", "reply string: " + ftpClient.getReplyString());
 
@@ -68,13 +70,4 @@ public class UploadRecipeImage extends AsyncTask<String, String, String> {
       
        return null;
    }
-   
-   /**
-    * After completing background task Dismiss the progress dialog
-    * **/
-   protected void onPostExecute(String file_url) {
-       // dismiss the dialog after getting all products
-       
-   }
-
 }

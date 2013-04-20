@@ -23,14 +23,16 @@
                 android:layout_height="match_parent"
                 android:ems="10"
                 android:textIsSelectable="false"
-                android:textStyle="bold|italic" />
+                android:textStyle="bold|italic" 
+            android:textSize="@dimen/medium_text"/>
 
             <TextView
                 android:id="@+id/viewFrom"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:ems="10"
-                android:textIsSelectable="false" />
+                android:textIsSelectable="false"
+            android:textSize="@dimen/medium_text" />
         </LinearLayout>
 
         <LinearLayout
@@ -43,14 +45,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:ems="10"
-                android:textIsSelectable="false" />
+                android:textIsSelectable="false"
+            android:textSize="@dimen/medium_text" />
 
             <TextView
                 android:id="@+id/viewCookTime"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:ems="10"
-                android:textIsSelectable="false" />
+                android:textIsSelectable="false"
+            android:textSize="@dimen/medium_text" />
         </LinearLayout>
     </LinearLayout>
 
@@ -70,28 +74,20 @@
             android:id="@+id/viewIngredients"
             android:layout_width="match_parent"
             android:layout_height="120dp"
+            android:background="@color/blue"
             android:ems="10"
             android:gravity="top|center_vertical"
-            android:textIsSelectable="false" />
+            android:textIsSelectable="false"
+            android:textSize="@dimen/big_text" />
 
         <TextView
             android:id="@+id/viewDirections"
             android:layout_width="match_parent"
             android:layout_height="210dp"
+            android:background="@color/gray"
             android:ems="10"
-            android:textIsSelectable="false" />
-
-        <ImageView
-            android:id="@+id/viewRecipeImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:maxWidth="80dp"
-            android:maxHeight="80dp"
-            android:cropToPadding="true"
-            android:baselineAlignBottom="true"
-            android:contentDescription="@string/recipeImageContent"
-            android:src="@drawable/ic_launcher" />
+            android:textIsSelectable="false"
+            android:textSize="@dimen/big_text" />
 
     </LinearLayout>
 
@@ -106,9 +102,20 @@
 
         <Button
             android:id="@+id/editRecipeButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/editRecipe" />
+            android:layout_weight="1"
+            android:text="@string/editRecipe"
+            style="?android:attr/borderlessButtonStyle" />
+
+        <Button
+            android:id="@+id/viewImage2"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/viewImage" />
+
     </LinearLayout>
 
 </RelativeLayout>

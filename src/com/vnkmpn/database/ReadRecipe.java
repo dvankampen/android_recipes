@@ -40,7 +40,6 @@ public class ReadRecipe extends AsyncTask<String, String, String> {
 	private static final String TAG_COOKTIME = "cooktime";
 	private static final String TAG_DIRECTIONS = "directions";
 	private static final String TAG_SERVES = "serves";
-	private static final String TAG_IMAGEURL = "imageurl";
     
     // recipes JSONArray
     JSONArray recipes = null;
@@ -110,7 +109,6 @@ public class ReadRecipe extends AsyncTask<String, String, String> {
                     String ovenTemp = c.getString(TAG_OVENTEMP);
                     String directions = c.getString(TAG_DIRECTIONS);
                     String serves = c.getString(TAG_SERVES);
-                    String imageUrl = c.getString(TAG_IMAGEURL);
 
                     Recipe recipe = new Recipe();
                     recipe.setID(id);
@@ -121,7 +119,6 @@ public class ReadRecipe extends AsyncTask<String, String, String> {
                     recipe.setOvenTemp(ovenTemp);
                     recipe.setDirections(directions);
                     recipe.setServes(serves);
-                    recipe.setImageURL(imageUrl);
 
                     // adding HashList to ArrayList
                     mRecipe = recipe;

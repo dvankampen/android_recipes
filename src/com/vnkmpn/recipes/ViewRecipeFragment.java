@@ -3,24 +3,20 @@ package com.vnkmpn.recipes;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.support.v4.app.FragmentActivity;
 
 import com.vnkmpn.database.CreateRecipe;
-import com.vnkmpn.database.GetRecipeImage;
 import com.vnkmpn.database.ReadRecipe;
 import com.vnkmpn.database.Recipe;
 import com.vnkmpn.database.UpdateRecipe;
@@ -47,6 +43,7 @@ public class ViewRecipeFragment extends Fragment {
     public FragmentActivity fa ;
     public Activity a;
     private ButtonClickListener bcl;
+    private ViewPhotoButtonClickListener vpbcl;
 
     Recipe recipe = null;
     ReadRecipe rr;
@@ -59,7 +56,8 @@ public class ViewRecipeFragment extends Fragment {
         super.onCreate(savedInstanceState);        
         fa = this.getActivity();
         bcl = new ButtonClickListener(fa, this);
-        id = getArguments().getInt(ARG_ITEM_ID, id);        
+        id = getArguments().getInt(ARG_ITEM_ID, id);
+        vpbcl = new ViewPhotoButtonClickListener(fa, id);   
     }
     
     @Override
@@ -82,14 +80,16 @@ public class ViewRecipeFragment extends Fragment {
         	((TextView) rootView.findViewById(R.id.viewOvenTemp)).setText(recipe.getOvenTemp());
         	final Button erb = (Button) rootView.findViewById(R.id.editRecipeButton);
         	erb.setOnClickListener(bcl);
-        	Bitmap recipePic = getImageBitmap(recipe.getImageURL());
-	    	((ImageView) rootView.findViewById(R.id.viewRecipeImage)).setImageBitmap(recipePic);
+        	final Button vpb = (Button) rootView.findViewById(R.id.viewImage2);
+        	vpb.setOnClickListener(vpbcl);
+	    	
         }
         return rootView;
     }
     
     public void refreshView() {
-    	recipe = rr.getRecipe(); //new Recipe(id, name, ingredients, ovenTemp, cookTime, from, directions);
+    	recipe = rr.getRecipe();    	
+    	
         
         if (id != 0) {
         	Log.d("RecipeViewFragment", "Recipe id:" + Integer.toString(id) + 
@@ -113,17 +113,11 @@ public class ViewRecipeFragment extends Fragment {
         	((TextView) rootView.findViewById(R.id.viewOvenTemp)).setText(recipe.getOvenTemp());
         	final Button erb = (Button) rootView.findViewById(R.id.editRecipeButton);
         	erb.setOnClickListener(bcl);
-        	Bitmap recipePic = getImageBitmap(recipe.getImageURL());
-	    	((ImageView) rootView.findViewById(R.id.viewRecipeImage)).setImageBitmap(recipePic);
+        	final Button vpb = (Button) rootView.findViewById(R.id.viewImage2);
+        	vpb.setOnClickListener(vpbcl);
         }
     }
-    
-    private Bitmap getImageBitmap(String url) {
-        GetRecipeImage gri = (GetRecipeImage) new GetRecipeImage(fa, url).execute();
-        Bitmap bm = gri.getImage();
-        return bm;
-     }
-    
+        
     public class ButtonClickListener implements OnClickListener, OnTouchListener{	
     	UpdateRecipe updateRecipeTask;
     	CreateRecipe createRecipeTask;
@@ -154,6 +148,7 @@ public class ViewRecipeFragment extends Fragment {
     
     private void startEditActivity(Activity parent, Recipe recipe) {
     	Intent editIntent = new Intent(parent, EditRecipeActivity.class);
+    	if (recipe != null) {
         editIntent.putExtra(ViewRecipeFragment.ARG_ITEM_ID, recipe.getID());
         editIntent.putExtra(ViewRecipeFragment.ARG_ITEM_NAME, recipe.getName());
         editIntent.putExtra(ViewRecipeFragment.ARG_ITEM_INGREDS, recipe.getIngredients());
@@ -161,6 +156,9 @@ public class ViewRecipeFragment extends Fragment {
         editIntent.putExtra(ViewRecipeFragment.ARG_ITEM_DIRECTIONS, recipe.getDirections());
         editIntent.putExtra(ViewRecipeFragment.ARG_ITEM_COOK, recipe.getCookTime());
         editIntent.putExtra(ViewRecipeFragment.ARG_ITEM_OVEN, recipe.getOvenTemp());
+    	} else {
+    		editIntent.putExtra(ViewRecipeFragment.ARG_ITEM_ID, 0);
+    	}
         startActivity(editIntent);
     	
     }

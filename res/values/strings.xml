@@ -15,5 +15,8 @@
     <string name="editDirections">Directions</string>
     <string name="addPicture">Take Photo</string>
     <string name="recipeImageContent">Recipe Image</string>
-
+    <string name="settings">Settings</string>
+    <string name="ftppassword">Image FTP Password</string>
+    <string name="viewImage">View Photo</string>
+    <string name="returnButton">Return</string>
 </resources>
