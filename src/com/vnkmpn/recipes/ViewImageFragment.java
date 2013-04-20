@@ -15,6 +15,7 @@ import com.vnkmpn.database.GetRecipeImage;
 public class ViewImageFragment extends Fragment {
 	
 	public static final String ARG_ITEM_ID = "_id";
+	public static final String ARG_ITEM_TWOPANE = "_twopane";
 	Drawable recipeImage;
 	int mId;
 	public FragmentActivity fa ;

@@ -48,7 +48,7 @@ implements RecipeListFragment.Callbacks {
 		switch(item.getItemId())
 		{
 		case R.id.create_recipe:
-			openDetailsWindow(null);
+			openEditRecipe(null);
 			break;
 		case R.id.settings_menu:
 			Intent settingsIntent = new Intent(this, SettingsActivity.class);
@@ -60,16 +60,58 @@ implements RecipeListFragment.Callbacks {
 
 	@Override
 	public void onItemSelected(Recipe recipe) {
-		openDetailsWindow(recipe);
+		openViewRecipe(recipe);
 	}
-
-	private void openDetailsWindow(Recipe recipe) {
-		if (recipe == null) {
+	private void openEditRecipe(Recipe recipe) {
+		if(recipe == null) {
 			recipe = new Recipe();
 			recipe.setID(0);
-			recipe.setName("Insert name here");
-			recipe.setIngredients("Insert Ingredients here");
 		}
+		if (mTwoPane) {
+		Bundle arguments = new Bundle();
+		Log.d("RecipeListActivity", "twopane Bundling arguments id: " + recipe.getID() +
+				", name: " + recipe.getName() + 
+				", ingredients: " + recipe.getIngredients() +
+				", from: " + recipe.getFrom() +
+				", oventemp: " + recipe.getOvenTemp() +
+				", directions: " + recipe.getDirections() +
+				", cooktime: " + recipe.getCookTime());
+		arguments.putInt(EditRecipeFragment.ARG_ITEM_ID, recipe.getID());
+		arguments.putString(EditRecipeFragment.ARG_ITEM_NAME, recipe.getName());
+		arguments.putString(EditRecipeFragment.ARG_ITEM_INGREDS, recipe.getIngredients());
+		arguments.putString(EditRecipeFragment.ARG_ITEM_FROM, recipe.getFrom());
+		arguments.putString(EditRecipeFragment.ARG_ITEM_DIRECTIONS, recipe.getDirections());
+		arguments.putString(EditRecipeFragment.ARG_ITEM_COOK, recipe.getCookTime());
+		arguments.putString(EditRecipeFragment.ARG_ITEM_OVEN, recipe.getOvenTemp());
+		arguments.putBoolean(EditRecipeFragment.ARG_ITEM_TWOPANE, mTwoPane);
+		EditRecipeFragment fragment = new EditRecipeFragment();
+		fragment.setArguments(arguments);
+		getSupportFragmentManager().beginTransaction()
+		.replace(R.id.recipe_detail_container, fragment)
+		.commit();
+
+	} else {
+		Log.d("RecipeListActivity", "Bundling arguments id: " + recipe.getID() +
+				", name: " + recipe.getName() + 
+				", ingredients: " + recipe.getIngredients() +
+				", from: " + recipe.getFrom() +
+				", oventemp: " + recipe.getOvenTemp() +
+				", directions: " + recipe.getDirections() +
+				", cooktime: " + recipe.getCookTime());
+		Intent editIntent = new Intent(this, EditRecipeActivity.class);
+		editIntent.putExtra(EditRecipeFragment.ARG_ITEM_ID, recipe.getID());
+		editIntent.putExtra(EditRecipeFragment.ARG_ITEM_NAME, recipe.getName());
+		editIntent.putExtra(EditRecipeFragment.ARG_ITEM_INGREDS, recipe.getIngredients());
+		editIntent.putExtra(EditRecipeFragment.ARG_ITEM_FROM, recipe.getFrom());
+		editIntent.putExtra(EditRecipeFragment.ARG_ITEM_DIRECTIONS, recipe.getDirections());
+		editIntent.putExtra(EditRecipeFragment.ARG_ITEM_COOK, recipe.getCookTime());
+		editIntent.putExtra(EditRecipeFragment.ARG_ITEM_OVEN, recipe.getOvenTemp());
+		editIntent.putExtra(EditRecipeFragment.ARG_ITEM_TWOPANE, mTwoPane);
+		startActivity(editIntent);
+	}
+	}
+
+	private void openViewRecipe(Recipe recipe) {
 		if (mTwoPane) {
 			Bundle arguments = new Bundle();
 			Log.d("RecipeListActivity", "twopane Bundling arguments id: " + recipe.getID() +
@@ -86,6 +128,7 @@ implements RecipeListFragment.Callbacks {
 			arguments.putString(ViewRecipeFragment.ARG_ITEM_DIRECTIONS, recipe.getDirections());
 			arguments.putString(ViewRecipeFragment.ARG_ITEM_COOK, recipe.getCookTime());
 			arguments.putString(ViewRecipeFragment.ARG_ITEM_OVEN, recipe.getOvenTemp());
+			arguments.putBoolean(ViewRecipeFragment.ARG_ITEM_TWOPANE, mTwoPane);
 			ViewRecipeFragment fragment = new ViewRecipeFragment();
 			fragment.setArguments(arguments);
 			getSupportFragmentManager().beginTransaction()
@@ -100,18 +143,18 @@ implements RecipeListFragment.Callbacks {
 					", oventemp: " + recipe.getOvenTemp() +
 					", directions: " + recipe.getDirections() +
 					", cooktime: " + recipe.getCookTime());
-			Intent detailIntent = new Intent(this, ViewRecipeActivity.class);
-			detailIntent.putExtra(ViewRecipeFragment.ARG_ITEM_ID, recipe.getID());
-			detailIntent.putExtra(ViewRecipeFragment.ARG_ITEM_NAME, recipe.getName());
-			detailIntent.putExtra(ViewRecipeFragment.ARG_ITEM_INGREDS, recipe.getIngredients());
-			detailIntent.putExtra(ViewRecipeFragment.ARG_ITEM_FROM, recipe.getFrom());
-			detailIntent.putExtra(ViewRecipeFragment.ARG_ITEM_DIRECTIONS, recipe.getDirections());
-			detailIntent.putExtra(ViewRecipeFragment.ARG_ITEM_COOK, recipe.getCookTime());
-			detailIntent.putExtra(ViewRecipeFragment.ARG_ITEM_OVEN, recipe.getOvenTemp());
-			startActivity(detailIntent);
+			Intent viewIntent = new Intent(this, ViewRecipeActivity.class);
+			viewIntent.putExtra(ViewRecipeFragment.ARG_ITEM_ID, recipe.getID());
+			viewIntent.putExtra(ViewRecipeFragment.ARG_ITEM_NAME, recipe.getName());
+			viewIntent.putExtra(ViewRecipeFragment.ARG_ITEM_INGREDS, recipe.getIngredients());
+			viewIntent.putExtra(ViewRecipeFragment.ARG_ITEM_FROM, recipe.getFrom());
+			viewIntent.putExtra(ViewRecipeFragment.ARG_ITEM_DIRECTIONS, recipe.getDirections());
+			viewIntent.putExtra(ViewRecipeFragment.ARG_ITEM_COOK, recipe.getCookTime());
+			viewIntent.putExtra(ViewRecipeFragment.ARG_ITEM_OVEN, recipe.getOvenTemp());
+			viewIntent.putExtra(ViewRecipeFragment.ARG_ITEM_TWOPANE, mTwoPane);
+			startActivity(viewIntent);
 		}
 	}
-
 
 	@Override
 	public void onItemLongSelected(final Recipe recipe) {
@@ -124,7 +167,7 @@ implements RecipeListFragment.Callbacks {
 		{
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				new DeleteRecipe(RecipeListActivity.this, Integer.toString(recipe.getID())).execute();
+				new DeleteRecipe(Integer.toString(recipe.getID())).execute();
 				//refresh the current view
 				finish();
 				startActivity(RecipeListActivity.this.getIntent());   

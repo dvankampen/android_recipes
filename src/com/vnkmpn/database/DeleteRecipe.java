@@ -8,9 +8,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 public class DeleteRecipe extends AsyncTask<String, String, String> {
@@ -18,11 +16,8 @@ public class DeleteRecipe extends AsyncTask<String, String, String> {
 
 	private final String TAG = "CreateRecipe";
 	
-	 // Progress Dialog
-   private ProgressDialog pDialog;
    //Creating JSON Parser object
    JSONParser jParser;
-   private FragmentActivity fa;
    // url to get all products list
    private static String url_delete_recipe = "http://vnkmpn.com/android/recipe_delete.php";
 
@@ -34,25 +29,11 @@ public class DeleteRecipe extends AsyncTask<String, String, String> {
    
    ArrayList<Recipe> recipesList = new ArrayList<Recipe>();
    
-   public DeleteRecipe (FragmentActivity parent, String id){ 
-	   fa = parent;
+   public DeleteRecipe (String id){ 
 	   mID = id;
 	   jParser = new JSONParser();
    }
 	 
-   /**
-    * Before starting background thread Show Progress Dialog
-    * */
-   @Override
-   protected void onPreExecute() {
-       super.onPreExecute();
-       pDialog = new ProgressDialog(fa);
-       pDialog.setMessage("Deleting recipe Please wait...");
-       pDialog.setIndeterminate(false);
-       pDialog.setCancelable(false);
-       pDialog.show();
-   }
-
    /**
     * getting All products from url
     * */
@@ -88,7 +69,7 @@ public class DeleteRecipe extends AsyncTask<String, String, String> {
     * **/
    protected void onPostExecute(String file_url) {
        // dismiss the dialog after getting all products
-       pDialog.dismiss();
+       //pDialog.dismiss();
    }
 
 }

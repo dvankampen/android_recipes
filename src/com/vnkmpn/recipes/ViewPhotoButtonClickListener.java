@@ -1,6 +1,7 @@
 package com.vnkmpn.recipes;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -10,10 +11,11 @@ import android.view.View.OnClickListener;
 public class ViewPhotoButtonClickListener implements OnClickListener, OnTouchListener {
 	FragmentActivity mParent;
 	int mId;
-	public ViewPhotoButtonClickListener(FragmentActivity parent, int id){
+	boolean mTwoPane;
+	public ViewPhotoButtonClickListener(FragmentActivity parent, int id, boolean twoPane){
 		mParent = parent;
 		mId = id;
-		
+		mTwoPane = twoPane;		
 	}
 
 	@Override
@@ -25,12 +27,22 @@ public class ViewPhotoButtonClickListener implements OnClickListener, OnTouchLis
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		Intent editIntent = new Intent(mParent, ViewImageActivity.class);
-        editIntent.putExtra(ViewImageFragment.ARG_ITEM_ID, mId);
-    	mParent.startActivity(editIntent);
-		
+		if (mTwoPane) {
+			Bundle arguments = new Bundle();
+			arguments.putBoolean(ViewImageFragment.ARG_ITEM_TWOPANE, mTwoPane);
+			ViewImageFragment fragment = new ViewImageFragment();
+			fragment.setArguments(arguments);
+			mParent.getSupportFragmentManager().beginTransaction()
+			.replace(R.id.recipe_detail_container, fragment)
+			.commit();
+		} else {
+			Intent editIntent = new Intent(mParent, ViewImageActivity.class);
+			editIntent.putExtra(ViewImageFragment.ARG_ITEM_ID, mId);
+			mParent.startActivity(editIntent);
+		}
+
 	}
-	
-	
+
+
 
 }

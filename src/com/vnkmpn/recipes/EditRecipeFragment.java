@@ -41,6 +41,7 @@ public class EditRecipeFragment extends Fragment {
     public static final String ARG_ITEM_COOK = "_cookTime";
     public static final String ARG_ITEM_FROM = "_from";
     public static final String ARG_ITEM_DIRECTIONS = "_directions";
+    public static final String ARG_ITEM_TWOPANE = "_directions";
     
     int id = 0;
     String ovenTemp = "default_500";  
@@ -61,6 +62,8 @@ public class EditRecipeFragment extends Fragment {
     ReadRecipe rr;
     
     File f = null;
+    
+    private boolean mTwoPane;
 
     public EditRecipeFragment() {
     }
@@ -75,7 +78,8 @@ public class EditRecipeFragment extends Fragment {
         tpbcl = new TakePhotoButtonClickListener();
                 
         id = getArguments().getInt(ARG_ITEM_ID, id);
-        vpbcl = new ViewPhotoButtonClickListener(fa, id);
+        mTwoPane = getArguments().getBoolean(ARG_ITEM_TWOPANE, mTwoPane);
+        vpbcl = new ViewPhotoButtonClickListener(fa, id, mTwoPane);
         
     	rr = new ReadRecipe(fa, this, Integer.toString(id));
     	rr.execute();
@@ -170,7 +174,7 @@ public class EditRecipeFragment extends Fragment {
         		createRecipeTask.execute();
         	}
         	Log.d("editRecipe", "popping back up a level");
-    		getFragmentManager().popBackStackImmediate();
+    		getFragmentManager().popBackStack();
     	}
     }
     
@@ -190,6 +194,9 @@ public class EditRecipeFragment extends Fragment {
 			}
 			takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
 			Log.d("editpict", "starting image intent");
+			if (mTwoPane) {
+				
+			}
 		    startActivityForResult(takePictureIntent, actionCode);		    
 		}
 		
