@@ -19,4 +19,5 @@
     <string name="ftppassword">Image FTP Password</string>
     <string name="viewImage">View Photo</string>
     <string name="returnButton">Return</string>
+    <string name="rotate">Rotate</string>
 </resources>

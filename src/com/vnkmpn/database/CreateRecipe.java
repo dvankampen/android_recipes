@@ -36,7 +36,7 @@ public class CreateRecipe extends AsyncTask<String, String, String> {
 	private static final String TAG_OVENTEMP = "oventemp";
 	private static final String TAG_COOKTIME = "cooktime";
 	private static final String TAG_DIRECTIONS = "directions";
-	private static final String TAG_SERVES = "serves";
+	//private static final String TAG_SERVES = "serves";
 
 	private Recipe mRecipe;
 

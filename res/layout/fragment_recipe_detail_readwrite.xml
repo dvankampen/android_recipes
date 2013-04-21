@@ -1,192 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/RelativeLayout1"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/editScrollView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:contentDescription="@string/recipeImageContent"
-    android:orientation="vertical" >
+    android:layout_height="fill_parent"
+    android:fillViewport="true" >
 
-    <LinearLayout
-        android:id="@+id/editRow1"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/editMainRelativeLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
+        android:contentDescription="@string/recipeImageContent"
         android:orientation="vertical" >
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:id="@+id/editNameFromRows"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/editNameLabel"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:text="@string/editName"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+            <LinearLayout
+                android:id="@+id/editNameRow"
+                android:layout_width="319dp"
+                android:layout_height="wrap_content" >
 
-            <EditText
-                android:id="@+id/editName"
+                <TextView
+                    android:id="@+id/editNameLabel"
+                    android:layout_width="80dp"
+                    android:layout_height="fill_parent"
+                    android:text="@string/editName"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <EditText
+                    android:id="@+id/editName"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:textStyle="bold|italic" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/editFromRow"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="text"
-                android:textStyle="bold|italic" >
+                android:layout_height="wrap_content" >
 
-                <requestFocus />
-            </EditText>
+                <TextView
+                    android:id="@+id/editFromLabel"
+                    android:layout_width="80dp"
+                    android:layout_height="fill_parent"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/editFrom"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <EditText
+                    android:id="@+id/editFrom"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="text" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:id="@+id/editOvenCookRows"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/editNameFromRows"
+            android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/editFromLabel"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:text="@string/editFrom"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-
-            <EditText
-                android:id="@+id/editFrom"
+            <LinearLayout
+                android:id="@+id/editOvenTempRow"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="text" />
-        </LinearLayout>
-    </LinearLayout>
+                android:layout_height="wrap_content" >
 
-    <LinearLayout
-        android:id="@+id/editRow2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/editRow1"
-        android:orientation="vertical" >
+                <TextView
+                    android:id="@+id/editOvenTempLabel"
+                    android:layout_width="80dp"
+                    android:layout_height="fill_parent"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/editOvenTemp"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+                <EditText
+                    android:id="@+id/editOvenTemp"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="text" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/editOvenTempLabel"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:text="@string/editOvenTemp"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-
-            <EditText
-                android:id="@+id/editOvenTemp"
+            <LinearLayout
+                android:id="@+id/editCookTimeRow"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="text" />
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/editCookTimeLabel"
+                    android:layout_width="80dp"
+                    android:layout_height="fill_parent"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/editCookTime"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <EditText
+                    android:id="@+id/editCookTime"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.13"
+                    android:ems="10"
+                    android:inputType="text" />
+            </LinearLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/editCookTimeLabel"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:text="@string/editCookTime"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-
-            <EditText
-                android:id="@+id/editCookTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="text" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/viewIngredientsLayoud"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/editRow2"
-        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/editIngredientsLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/editOvenCookRows"
+            android:layout_marginTop="12dp"
             android:text="@string/editIngedients" />
 
         <EditText
             android:id="@+id/editIngredients"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.32"
+            android:layout_below="@id/editIngredientsLabel"
             android:ems="10"
             android:gravity="top|center_vertical"
             android:inputType="textMultiLine"
+            android:scrollbarAlwaysDrawVerticalTrack="false"
             android:scrollbarStyle="insideOverlay"
-            android:scrollbars="vertical" />
+            android:scrollbars="none" >
+
+            <requestFocus />
+        </EditText>
 
         <TextView
             android:id="@+id/editDirectionsLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/editIngredients"
             android:text="@string/editDirections" />
 
         <EditText
             android:id="@+id/editDirections"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.40"
+            android:layout_below="@id/editDirectionsLabel"
             android:ems="10"
             android:inputType="textMultiLine"
             android:scrollbarStyle="insideOverlay"
-            android:scrollbars="vertical" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/imageLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/viewIngredientsLayoud" >
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true" >
+            android:scrollbars="none" />
 
         <Button
             android:id="@+id/addPictureButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/addPicture"
-            style="?android:attr/borderlessButtonStyle" />
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/editDirections"
+            android:gravity="bottom|center_horizontal"
+            android:paddingBottom="10dp"
+            android:text="@string/addPicture" />
 
         <Button
             android:id="@+id/saveRecipeButton"
-            android:layout_width="0dp"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/saveRecipe"
-            style="?android:attr/borderlessButtonStyle" />
+            android:layout_alignTop="@+id/addPictureButton"
+            android:layout_centerHorizontal="true"
+            android:gravity="bottom|center_horizontal"
+            android:paddingBottom="10dp"
+            android:text="@string/saveRecipe" />
 
         <Button
             android:id="@+id/viewImage"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/viewImage"
-            style="?android:attr/borderlessButtonStyle" />
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/saveRecipeButton"
+            android:gravity="bottom|center_horizontal"
+            android:paddingBottom="10dp"
+            android:text="@string/viewImage" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
-</RelativeLayout>
+</ScrollView>

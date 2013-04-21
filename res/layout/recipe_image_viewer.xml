@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/RelativeLayout1"
+    android:id="@+id/editMainRelativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -13,8 +13,24 @@
         android:layout_alignParentLeft="false"
         android:layout_alignParentRight="false"
         android:layout_alignParentTop="false"
-        android:background="@color/blue"
+        android:background="@drawable/back"
         android:contentDescription="@string/recipeImageContent"
         android:src="@drawable/ic_launcher" />
+
+    <SeekBar
+        android:id="@+id/zoomBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/rotateImageButton" />
+
+    <Button
+        android:id="@+id/rotateImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/rotate" />
 
 </RelativeLayout>
