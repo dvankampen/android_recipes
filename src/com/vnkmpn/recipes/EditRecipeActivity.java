@@ -1,7 +1,9 @@
 package com.vnkmpn.recipes;
 
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
@@ -9,6 +11,7 @@ import android.view.MenuItem;
 
 public class EditRecipeActivity extends FragmentActivity {
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
